@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 class QualityRuleTest {
@@ -18,10 +19,9 @@ class QualityRuleTest {
     private static Product product2;
     private static List<Product> productList;
 
-
-
     @BeforeAll
     static void setup() {
+        productList = new ArrayList<>();
         product = new Product("Aged Brie", 1, 1);
         product1 = new Product("Backstage Passes", 1, 1);
         product2 = new Product("General Item", 1, 1);
