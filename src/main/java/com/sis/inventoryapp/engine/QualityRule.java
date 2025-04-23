@@ -24,8 +24,8 @@ public class QualityRule implements Rule {
                     break;
                 case "Sulfuras": //No change
                     break;
-                case "Normal Item":
-                    updateNormalItem(product);
+                case "Normal Product":
+                    updateNormalProduct(product);
                     break;
                 case "Conjured":
                     updateConjured(product);
@@ -56,7 +56,7 @@ public class QualityRule implements Rule {
         if (diffInDays > 0 && sellInDate <= 10 && sellInDate > 5) {
             updatedQuality = quality + (2 * diffInDays);
             product.setQuality(updatedQuality);
-        } else if (diffInDays > 0 && sellInDate <= 5 && sellInDate >= 0) {
+        } else if (diffInDays > 0 && sellInDate <= 5 && sellInDate > 0) {
             updatedQuality = quality + (3 * diffInDays);
             product.setQuality(updatedQuality);
         } else if (sellInDate <= 0) {
@@ -67,7 +67,7 @@ public class QualityRule implements Rule {
         }
     }
 
-    private void updateNormalItem(Product product) {
+    private void updateNormalProduct(Product product) {
         long diffInDays = calculateDiffInDays(product);
         if (diffInDays > 0) {
             long updatedQuality = product.getQuality() - diffInDays;
