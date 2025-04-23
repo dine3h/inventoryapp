@@ -18,7 +18,7 @@ public class Product {
     private Long id;
     private String name;
     private long sellInDate;
-    private int quality;
+    private long quality;
     @CreationTimestamp
     private Instant createdOn;
 
@@ -35,6 +35,14 @@ public class Product {
         this.createdOn = instant;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public long getSellInDate() {
         return sellInDate;
     }
@@ -43,11 +51,11 @@ public class Product {
         this.sellInDate = sellInDate;
     }
 
-    public int getQuality() {
+    public long getQuality() {
         return quality;
     }
 
-    public void setQuality(int quality) {
+    public void setQuality(long quality) {
         this.quality = quality;
     }
 
