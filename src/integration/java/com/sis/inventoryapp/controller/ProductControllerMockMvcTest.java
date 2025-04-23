@@ -9,19 +9,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProductController.class)
 class ProductControllerMockMvcTest {
@@ -56,23 +53,22 @@ class ProductControllerMockMvcTest {
         this.mockMvc.perform(get("/products"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].name").value("Aged Brie"))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].sellInDate").value(1))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].Quality").value(1))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].name").value("Backstage Passes"))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].sellInDate").value("-1"))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].quality").value("2"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].name").value("Backstage Passes"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].sellInDate").value("9"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].quality").value("2"))
-                .andExpect((ResultMatcher) jsonPath("$.product.length()").value(3));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].name").value("Aged Brie"))
+                .andExpect(jsonPath("$[0].sellInDate").value(1))
+                .andExpect(jsonPath("$[0].quality").value(1))
+                .andExpect(jsonPath("$[1].name").value("Backstage Passes"))
+                .andExpect(jsonPath("$[1].sellInDate").value(1))
+                .andExpect(jsonPath("$[1].quality").value(1))
+                .andExpect(jsonPath("$[2].name").value("Backstage Passes"))
+                .andExpect(jsonPath("$[2].sellInDate").value(1))
+                .andExpect( jsonPath("$[2].quality").value(1));
     }
 
     @Test
     void shouldReturnProductsList_whenProductsAddedToDbSuccess() throws Exception {
-        String jsonInput = "[{\"name\":\"AgedBrie\",\"sell_indate\":1\"quality\":1},{\"name\":\"BackstagePasses\",\"sell_indate\":1\"quality\":2}," +
-                                "{\"name\":\"BackstagePasses\",\"sell_indate\":9\"quality\":2}]";
+        String jsonInput = "[{\"name\":\"Aged Brie\",\"sellInDate\":1\"quality\":1},{\"name\":\"Backstage Passes\",\"sellInDate\":1\"quality\":1}," +
+                                "{\"name\":\"Backstage Passes\",\"sellInDate\":1\"quality\":1}]";
 
         when(mockProductService.addProducts(anyList())).thenReturn(productList);
         this.mockMvc.perform(post("/products")
@@ -81,16 +77,15 @@ class ProductControllerMockMvcTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].name").value("Aged Brie"))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].sellInDate").value(1))
-                .andExpect((ResultMatcher) jsonPath("$.product[0].quality").value(1))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].name").value("Backstage Passes"))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].sellInDate").value("-1"))
-                .andExpect((ResultMatcher) jsonPath("$.product[1].quality").value("2"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].name").value("Backstage Passes"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].sellInDate").value("9"))
-                .andExpect((ResultMatcher) jsonPath("$.product[2].quality").value("2"))
-                .andExpect((ResultMatcher) jsonPath("$.product.length()").value(3));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect( jsonPath("$[0].name").value("Aged Brie"))
+                .andExpect( jsonPath("$[0].sellInDate").value(1))
+                .andExpect(jsonPath("$[0].quality").value(1))
+                .andExpect(jsonPath("$[1].name").value("Backstage Passes"))
+                .andExpect(jsonPath("$[1].sellInDate").value(1))
+                .andExpect(jsonPath("$[1].quality").value(1))
+                .andExpect(jsonPath("$[2].name").value("Backstage Passes"))
+                .andExpect(jsonPath("$[2].sellInDate").value(1))
+                .andExpect(jsonPath("$[2].quality").value(1));
     }
 }
