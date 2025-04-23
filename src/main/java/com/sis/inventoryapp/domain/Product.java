@@ -1,12 +1,21 @@
 package com.sis.inventoryapp.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
+
 
 import java.time.Instant;
 import java.util.Objects;
 
+@Entity
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
     private int sellInDate;
     private int quality;
