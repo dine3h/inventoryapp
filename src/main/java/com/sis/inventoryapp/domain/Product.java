@@ -17,7 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private int sellInDate;
+    private long sellInDate;
     private int quality;
     @CreationTimestamp
     private Instant createdOn;
@@ -35,15 +35,11 @@ public class Product {
         this.createdOn = instant;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getSellInDate() {
+    public long getSellInDate() {
         return sellInDate;
     }
 
-    public void setSellInDate(int sellInDate) {
+    public void setSellInDate(long sellInDate) {
         this.sellInDate = sellInDate;
     }
 

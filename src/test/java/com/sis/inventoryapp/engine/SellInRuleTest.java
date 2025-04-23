@@ -2,7 +2,6 @@ package com.sis.inventoryapp.engine;
 
 import com.sis.inventoryapp.domain.Product;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -12,55 +11,48 @@ import java.util.List;
 
 class SellInRuleTest {
 
-    private SellInRule sellInRule = new SellInRule();
+    private Rule sellInRule = new SellInRule();
 
-    private static Product product;
-    private static Product product1;
-    private static Product product2;
-    private static List<Product> nowProductList;
-    private static List<Product> oldProductList;
+    @Test
+    void shouldReturnDecreasedSellInDate_whenCurrentDateIsDifferentToCreatedDate(){
+        List<Product> productList = new ArrayList<>();
 
-    @BeforeAll
-    static void setup() {
-        nowProductList = new ArrayList<>();
-        oldProductList = new ArrayList<>();
+        Product product = new Product("Aged Brie", 7, 1);
+        Product product1 = new Product("Backstage Passes", 5, 1);
+        Product product2 = new Product("General Item", 1, 1);
 
-        product = new Product("Aged Brie", 1, 1, Instant.now());
-        product1 = new Product("Backstage Passes", 1, 1, Instant.now());
-        product2 = new Product("Backstage Passes", 1, 1, Instant.now());
-        nowProductList.add(product);
-        nowProductList.add(product1);
-        nowProductList.add(product2);
-
-        //Calculates two days earlier timestamp to simulate historic creation of inventory
         Instant instant = Instant.now();
         Instant pastInstant = instant.minus(Period.ofDays(2));
 
         product.setCreatedOn(pastInstant);
         product1.setCreatedOn(pastInstant);
         product2.setCreatedOn(pastInstant);
-        oldProductList.add(product);
-        oldProductList.add(product1);
-        oldProductList.add(product2);
-    }
+        productList.add(product);
+        productList.add(product1);
+        productList.add(product2);
 
-    @Test
-    void shouldReturnDecreasedSellInDate_whenCurrentDateIsDifferentToCreatedDate(){
-        List<Product> updatedProductList = sellInRule.execute(oldProductList);
-        int oldSellInDate = oldProductList.get(0).getSellInDate();
-        int newSellInDate = updatedProductList.get(0).getSellInDate();
-        int diffInDays = oldSellInDate - newSellInDate;
+        List<Product> updatedProductList = sellInRule.execute(productList);
 
-        Assertions.assertEquals(2, diffInDays);
+        Assertions.assertEquals(5, updatedProductList.get(0).getSellInDate());
+        Assertions.assertEquals(3, updatedProductList.get(1).getSellInDate());
+        Assertions.assertEquals(-1, updatedProductList.get(2).getSellInDate());
     }
 
     @Test
     void shouldReturnSameSellInDate_whenCurrentDateIsSameAsCreatedDate() {
-        List<Product> updatedProductList = sellInRule.execute(oldProductList);
-        int oldSellInDate = oldProductList.get(0).getSellInDate();
-        int newSellInDate = updatedProductList.get(0).getSellInDate();
-        int diffInDays = oldSellInDate - newSellInDate;
+        List<Product> productList = new ArrayList<>();
 
-        Assertions.assertEquals(0, diffInDays);
+        Product product = new Product("Aged Brie", 7, 1, Instant.now());
+        Product product1 = new Product("Backstage Passes", 5, 1, Instant.now());
+        Product product2 = new Product("General Item", 3, 1, Instant.now());
+        productList.add(product);
+        productList.add(product1);
+        productList.add(product2);
+
+        List<Product> updatedProductList = sellInRule.execute(productList);
+
+        Assertions.assertEquals(7, updatedProductList.get(0).getSellInDate());
+        Assertions.assertEquals(5, updatedProductList.get(1).getSellInDate());
+        Assertions.assertEquals(3, updatedProductList.get(2).getSellInDate());
     }
 }
