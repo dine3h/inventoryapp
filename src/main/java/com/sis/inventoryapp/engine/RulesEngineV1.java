@@ -1,16 +1,20 @@
 package com.sis.inventoryapp.engine;
 
+import com.sis.inventoryapp.domain.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class RulesEngineV1 implements RulesEngine{
+public class RulesEngineV1 {
 
-    private List<Rule> ruleList = new ArrayList<>();
+    @Autowired
+    private SellInRule sellInRule;
+    @Autowired
+    private QualityRule qualityRule;
 
-    public void execute() {
-
+    public List<Product> run(List<Product> productList) {
+        return qualityRule.execute(sellInRule.execute(productList));
     }
 }
