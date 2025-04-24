@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -70,22 +69,12 @@ class ProductControllerMockMvcTest {
         String jsonInput = "[{\"name\":\"Aged Brie\",\"sellInDate\":1\"quality\":1},{\"name\":\"Backstage Passes\",\"sellInDate\":1\"quality\":1}," +
                                 "{\"name\":\"Backstage Passes\",\"sellInDate\":1\"quality\":1}]";
 
-        when(mockProductService.addProducts(anyList())).thenReturn(productList);
         this.mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonInput)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect( jsonPath("$[0].name").value("Aged Brie"))
-                .andExpect( jsonPath("$[0].sellInDate").value(1))
-                .andExpect(jsonPath("$[0].quality").value(1))
-                .andExpect(jsonPath("$[1].name").value("Backstage Passes"))
-                .andExpect(jsonPath("$[1].sellInDate").value(1))
-                .andExpect(jsonPath("$[1].quality").value(1))
-                .andExpect(jsonPath("$[2].name").value("Backstage Passes"))
-                .andExpect(jsonPath("$[2].sellInDate").value(1))
-                .andExpect(jsonPath("$[2].quality").value(1));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 }

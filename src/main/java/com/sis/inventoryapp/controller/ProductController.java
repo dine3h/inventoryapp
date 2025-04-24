@@ -19,7 +19,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public List<Product> addProducts(@RequestBody List<Product> productList){
-        return productService.addProducts(productList);
+    public void addProducts(@RequestBody List<Product> productList){
+        productService.addProducts(productList);
     }
 }

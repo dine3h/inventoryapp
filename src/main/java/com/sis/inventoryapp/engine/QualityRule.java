@@ -16,23 +16,12 @@ public class QualityRule {
 
         for (Product product : productList) {
             switch (product.getName()) {
-                case "Aged Brie":
-                    updateAgedBrie(product);
-                    break;
-                case "Backstage passes":
-                    updateBackstagePass(product);
-                    break;
-                case "Sulfuras": //No change
-                    break;
-                case "Normal Product":
-                    updateNormalProduct(product);
-                    break;
-                case "Conjured":
-                    updateConjured(product);
-                    break;
-                default:
-                    product.setName("NO SUCH ITEM");
-                    break;
+                case "Aged Brie" -> updateAgedBrie(product);
+                case "Backstage passes" -> updateBackstagePass(product);
+                case "Sulfuras" -> {}
+                case "Normal Product" -> updateNormalProduct(product);
+                case "Conjured" -> updateConjured(product);
+                default -> product.setName("NO SUCH ITEM");
             }
             updatedProductList.add(product);
         }
