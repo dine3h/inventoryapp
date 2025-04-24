@@ -6,9 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.hibernate.annotations.CreationTimestamp;
 
-
 import java.time.Instant;
 import java.util.Objects;
+
 
 @Entity
 public class Product {
@@ -21,6 +21,8 @@ public class Product {
     private long quality;
     @CreationTimestamp
     private Instant createdOn;
+
+    public Product() {}
 
     public Product(String name, int sellInDate, int quality) {
         this.name = name;

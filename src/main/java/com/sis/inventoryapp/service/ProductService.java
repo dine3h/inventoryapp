@@ -1,6 +1,7 @@
 package com.sis.inventoryapp.service;
 
 import com.sis.inventoryapp.domain.Product;
+import com.sis.inventoryapp.engine.RulesEngineV1;
 import com.sis.inventoryapp.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
+    private RulesEngineV1 rulesEngineV1;
+    @Autowired
     private ProductRepository productRepository;
 
     public void addProducts(List<Product> productList) {
@@ -19,6 +22,7 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        return rulesEngineV1.run(productList);
     }
 }
