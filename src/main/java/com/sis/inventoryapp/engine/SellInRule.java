@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class SellInRule implements Rule{
+public class SellInRule {
 
     public List<Product> execute(List<Product> productList){
         long diffInDays;

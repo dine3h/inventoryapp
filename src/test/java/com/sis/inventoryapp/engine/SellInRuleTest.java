@@ -3,15 +3,19 @@ package com.sis.inventoryapp.engine;
 import com.sis.inventoryapp.domain.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest
 class SellInRuleTest {
 
-    private Rule sellInRule = new SellInRule();
+    @Autowired
+    private SellInRule sellInRule;
 
     @Test
     void shouldReturnDecreasedSellInDate_whenCurrentDateIsDifferentToCreatedDate(){

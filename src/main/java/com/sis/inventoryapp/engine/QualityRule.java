@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class QualityRule implements Rule {
+public class QualityRule {
 
     public List<Product> execute(List<Product> productList) {
         List<Product> updatedProductList = new ArrayList<>();
